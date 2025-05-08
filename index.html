@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Click Counter</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Full-screen centering and background gradient */
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #FFDEE9, #B5FFFC);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    /* Big count display */
+    #count {
+      font-size: 10vw;
+      margin-bottom: 2vh;
+      user-select: none;
+    }
+
+    /* Pulse animation */
+    @keyframes pulse {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .pulse {
+      animation: pulse 0.3s ease-out;
+    }
+
+    /* Shared button styles */
+    button {
+      border: none;
+      border-radius: 1em;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Main click button */
+    #clicker {
+      width: 80vw;
+      max-width: 400px;
+      height: 80vw;
+      max-height: 200px;
+      font-size: 4vw;
+      background: linear-gradient(135deg, #89F7FE, #66A6FF);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      margin-bottom: 2vh;
+    }
+    #clicker:hover {
+      box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+    }
+    #clicker:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Reset button */
+    #reset {
+      width: 40vw;
+      max-width: 200px;
+      height: 50px;
+      font-size: 3vw;
+      background: linear-gradient(135deg, #FF9A9E, #FAD0C4);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+    #reset:hover {
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+    }
+    #reset:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="count">0</div>
+    <button id="clicker">CLICK ME</button>
+    <button id="reset">RESET</button>
+  </div>
+
+  <script>
+    const countEl  = document.getElementById('count');
+    const clicker  = document.getElementById('clicker');
+    const resetBtn = document.getElementById('reset');
+
+    // Load saved count or default to 0
+    let count = parseInt(localStorage.getItem('myClickCount')) || 0;
+    countEl.textContent = count;
+
+    // Update display + animate
+    function updateDisplay() {
+      countEl.textContent = count;
+      countEl.classList.add('pulse');
+      setTimeout(() => countEl.classList.remove('pulse'), 300);
+    }
+
+    // Increment handler
+    clicker.addEventListener('click', () => {
+      count++;
+      localStorage.setItem('myClickCount', count);
+      updateDisplay();
+    });
+
+    // Reset handler
+    resetBtn.addEventListener('click', () => {
+      count = 0;
+      localStorage.setItem('myClickCount', count);
+      updateDisplay();
+    });
+  </script>
+</body>
+</html>
